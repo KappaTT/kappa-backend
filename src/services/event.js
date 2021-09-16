@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 import { pass, fail } from 'utils/res';
 import { projectChanges } from 'services/mongoHelper';
 
-export const POINT_CATEGORIES = ['BRO', 'RUSH', 'PROF', 'PHIL', 'CHAT', 'ANY'];
+export const POINT_CATEGORIES = ['BRO', 'RUSH', 'PROF', 'PHIL', 'CHAT', 'DIV', 'ANY'];
 
 export const getAllEvents = async (user) => {
   try {
@@ -401,6 +401,7 @@ export const computePoints = (events) => {
     PROF: 0,
     RUSH: 0,
     CHAT: 0,
+    DIV: 0,
     ANY: 0
   };
 
