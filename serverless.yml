@@ -1,5 +1,8 @@
-org: thetatauwebchair
-app: ktt-backend
+# Serverless Dashboard integration disabled: the v1 dashboard auth service no
+# longer accepts logins, which blocks every command (including offline) when
+# org/app are set. Deploys go through CloudFormation and don't need it.
+# org: thetatauwebchair
+# app: ktt-backend
 
 service: ktt-backend
 
@@ -319,6 +322,94 @@ functions:
       - http:
           path: auto/reset
           method: POST
+          cors: true
+
+  coursesGetAll:
+    handler: src/routes/courses/get-all.handler
+    events:
+      - http:
+          path: courses
+          method: GET
+          cors: true
+
+  coursesSearchOfficial:
+    handler: src/routes/courses/search-official.handler
+    events:
+      - http:
+          path: courses/search
+          method: GET
+          cors: true
+
+  coursesEnroll:
+    handler: src/routes/courses/enroll.handler
+    events:
+      - http:
+          path: courses/enroll
+          method: POST
+          cors: true
+
+  coursesApprove:
+    handler: src/routes/courses/approve-course.handler
+    events:
+      - http:
+          path: courses/{target}/approve
+          method: PATCH
+          cors: true
+
+  coursesReject:
+    handler: src/routes/courses/reject-course.handler
+    events:
+      - http:
+          path: courses/{target}/reject
+          method: DELETE
+          cors: true
+
+  coursesDeleteOne:
+    handler: src/routes/courses/delete-course.handler
+    events:
+      - http:
+          path: courses/{target}
+          method: DELETE
+          cors: true
+
+  coursesUnenroll:
+    handler: src/routes/courses/unenroll.handler
+    events:
+      - http:
+          path: enrollments/{target}
+          method: DELETE
+          cors: true
+
+  adviceGetByCourse:
+    handler: src/routes/courses/get-advice.handler
+    events:
+      - http:
+          path: advice/course/{target}
+          method: GET
+          cors: true
+
+  adviceCreate:
+    handler: src/routes/courses/create-advice.handler
+    events:
+      - http:
+          path: advice
+          method: POST
+          cors: true
+
+  adviceUpdateOne:
+    handler: src/routes/courses/update-advice.handler
+    events:
+      - http:
+          path: advice/{target}
+          method: PATCH
+          cors: true
+
+  adviceDeleteOne:
+    handler: src/routes/courses/delete-advice.handler
+    events:
+      - http:
+          path: advice/{target}
+          method: DELETE
           cors: true
 
 custom:
