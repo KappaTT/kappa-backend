@@ -8,7 +8,7 @@ service: ktt-backend
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs20.x
   memorySize: 256
   stage: ${opt:stage,'dev'}
   region: us-east-1 # Virginia
