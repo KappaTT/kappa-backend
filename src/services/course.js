@@ -409,12 +409,14 @@ export const deleteAdvice = async (_id) => {
 };
 
 export const sanitizeAdvice = (advice, requester) => {
-  // hide the author of anonymous advice from everyone except the author and privileged users
+  // hide the author of anonymous advice from everyone except the author and privileged users;
+  // the term is hidden with it since a one-person term roster on the same card would name the author
 
   if (advice.anonymous && advice.email !== requester.email && !requester.privileged) {
     return {
       ...advice,
-      email: ''
+      email: '',
+      term: ''
     };
   }
 

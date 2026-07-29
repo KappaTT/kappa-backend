@@ -17,12 +17,6 @@ const _handler = async (event, context) => {
     changes: {}
   });
 
-  if (target !== event.user.email && ocBody.changes.hideClasses !== undefined) {
-    // hideClasses is a personal privacy setting: only its owner may change it, no matter the requester's role
-
-    throw new createHttpError.Unauthorized('Not authorized');
-  }
-
   if (event.user.role?.toLowerCase() !== 'web') {
     if (ocBody.changes.email || ocBody.changes.role || ocBody.changes.privileged) {
       throw new createHttpError.Unauthorized('Not authorized');

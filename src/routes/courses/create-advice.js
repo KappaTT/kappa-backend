@@ -15,6 +15,7 @@ const _handler = async (event, context) => {
       courseId: '',
       category: 'GENERAL',
       professor: '',
+      term: '',
       text: '',
       anonymous: false
     }
@@ -34,6 +35,7 @@ const _handler = async (event, context) => {
     anonymous: ocBody.advice.anonymous === true,
     category: ocBody.advice.category,
     professor: ocBody.advice.professor.trim(),
+    term: ocBody.advice.term.trim(),
     text: ocBody.advice.text.trim(),
     createdAt: moment().toISOString(),
     updatedAt: moment().toISOString()

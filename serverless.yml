@@ -8,7 +8,9 @@ service: ktt-backend
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  # deploys need a runtime AWS still accepts; serverless-offline only understands the old ones,
+  # so offline.sh overrides this with nodejs12.x locally (handlers actually run in the local node)
+  runtime: ${env:SLS_LOCAL_RUNTIME, 'nodejs20.x'}
   memorySize: 256
   stage: ${opt:stage,'dev'}
   region: us-east-1 # Virginia

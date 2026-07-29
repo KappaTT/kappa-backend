@@ -30,6 +30,7 @@ const _handler = async (event, context) => {
     changes: {
       category: foundAdvice.data.advice.category,
       professor: foundAdvice.data.advice.professor,
+      term: foundAdvice.data.advice.term || '',
       text: foundAdvice.data.advice.text,
       anonymous: foundAdvice.data.advice.anonymous
     }
@@ -46,6 +47,7 @@ const _handler = async (event, context) => {
   const updatedAdvice = await updateAdvice(target, {
     category: ocBody.changes.category,
     professor: ocBody.changes.professor.trim(),
+    term: ocBody.changes.term.trim(),
     text: ocBody.changes.text.trim(),
     anonymous: ocBody.changes.anonymous === true,
     updatedAt: moment().toISOString()
