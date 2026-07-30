@@ -73,6 +73,11 @@ const errorHandler = () => ({
 
       handler.response = {
         statusCode: handler.error.statusCode,
+        headers: {
+          // the cors middleware only decorates successful responses, so without this browsers
+          // block error bodies and the client can never distinguish a 401 from a network failure
+          'Access-Control-Allow-Origin': '*'
+        },
         body: JSON.stringify({
           error: {
             message: handler.error.message,
