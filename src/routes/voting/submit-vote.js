@@ -5,7 +5,7 @@ import oc from 'js-optchain';
 import { updateVote } from 'services/voting';
 
 const _handler = async (event, context) => {
-  if (!event.authorized) {
+  if (!event.authorized || event.user.type === 'PNM') {
     throw new createHttpError.Unauthorized('Not authorized');
   }
 

@@ -110,6 +110,21 @@ const _handler = async (event, context) => {
     throw new createHttpError.Unauthorized('Not authorized');
   }
 
+  if (event.user.type === 'PNM') {
+    // PNMs are not part of voting: pretend there is no active session rather than erroring
+    // so stale or polling clients quietly show nothing
+
+    return {
+      statusCode: 200,
+      body: {
+        candidate: null,
+        candidates: [],
+        sessions: [],
+        votes: []
+      }
+    };
+  }
+
   const foundSessions = await getAllSessions();
 
   if (!foundSessions.success) {

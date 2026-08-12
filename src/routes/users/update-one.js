@@ -17,8 +17,12 @@ const _handler = async (event, context) => {
     changes: {}
   });
 
+  // membership tier is web-chair-only; test key PRESENCE, not truthiness, so a falsy value
+  // like '' cannot slip a PNM out of their restrictions
+  const changesType = Object.prototype.hasOwnProperty.call(ocBody.changes, 'type');
+
   if (event.user.role?.toLowerCase() !== 'web') {
-    if (ocBody.changes.email || ocBody.changes.role || ocBody.changes.privileged) {
+    if (ocBody.changes.email || ocBody.changes.role || ocBody.changes.privileged || changesType) {
       throw new createHttpError.Unauthorized('Not authorized');
     }
   }
@@ -34,6 +38,15 @@ const _handler = async (event, context) => {
       ocBody.changes.privileged
     ) {
       throw new createHttpError.Unauthorized('Not authorized');
+    }
+  }
+
+  if (changesType) {
+    // normalize to the only two valid tiers, and a PNM can never be privileged
+    ocBody.changes.type = ocBody.changes.type === 'PNM' ? 'PNM' : 'B';
+
+    if (ocBody.changes.type === 'PNM') {
+      ocBody.changes.privileged = false;
     }
   }
 

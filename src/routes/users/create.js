@@ -42,9 +42,10 @@ const _handler = async (event, context) => {
     firstYear: ocBody.user.firstYear,
     gradYear: ocBody.user.gradYear,
     semester: ocBody.user.semester,
-    type: ocBody.user.type,
+    type: ocBody.user.type === 'PNM' ? 'PNM' : 'B',
     role: ocBody.user.role,
-    privileged: ocBody.user.privileged
+    // a PNM is never an officer, so it can never carry voting/admin privileges
+    privileged: ocBody.user.type === 'PNM' ? false : ocBody.user.privileged
   };
 
   const createdUser = await createUser(newUser);
