@@ -41,6 +41,13 @@ export const generateCode = (codeLength = 4) => {
   return code.substring(0, codeLength);
 };
 
+/**
+ * Check if the given user is the web chair, the only role allowed to see how brothers voted.
+ */
+export const isWebChair = (user) => {
+  return user?.privileged === true && (user.role || '').toLowerCase() === 'web';
+};
+
 export const isEmpty = (obj) => {
   if (obj === undefined || obj === null) return true;
   if (obj.constructor !== Object) return false;

@@ -1,6 +1,7 @@
 import middyfy from 'middleware';
 import createHttpError from 'http-errors';
 
+import { isWebChair } from 'utils/auth';
 import {
   getCandidate,
   getSessionAndCandidateVotes,
@@ -34,7 +35,8 @@ const getRegular = async ({ event, foundSessions, activeSession }) => {
 
   let foundVotes;
 
-  if (event.user.privileged) {
+  // Only the web chair sees everyone's votes: other officers and brothers get just their own
+  if (isWebChair(event.user)) {
     foundVotes = await getSessionAndCandidateVotes(activeSession._id, foundCandidate.data.candidate._id);
   } else {
     foundVotes = await getVote(event.user.email, activeSession._id, foundCandidate.data.candidate._id);
@@ -83,7 +85,8 @@ const getMulti = async ({ event, foundSessions, activeSession }) => {
 
   let foundVotes;
 
-  if (event.user.privileged) {
+  // Only the web chair sees everyone's votes: other officers and brothers get just their own
+  if (isWebChair(event.user)) {
     foundVotes = await getSessionVotes(activeSession._id);
   } else {
     foundVotes = await getVotesBySession(event.user.email, activeSession._id);
